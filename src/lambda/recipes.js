@@ -12,20 +12,20 @@ exports.handler = (event, context, callback) => {
     if (err) { throw err }
     collection = connection.db('test').collection('recipes')
     console.log(collection)
-
-    collection.find({}).toArray((error, data) => {
-      if (error) { throw error }
-      client.close()
-      callback(null, {
-        statusCode: 200,
-        body: JSON.stringify({ data }),
-        headers: {
-          'content-type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers':
-            'Origin, X-Requested-With, Content-Type, Accept'
-        }
-      })
-    })
+    client.close()
+    // collection.find({}).toArray((error, data) => {
+    //   if (error) { throw error }
+    //   client.close()
+    //   callback(null, {
+    //     statusCode: 200,
+    //     body: JSON.stringify({ data }),
+    //     headers: {
+    //       'content-type': 'application/json',
+    //       'Access-Control-Allow-Origin': '*',
+    //       'Access-Control-Allow-Headers':
+    //         'Origin, X-Requested-With, Content-Type, Accept'
+    //     }
+    //   })
+    // })
   })
 }
