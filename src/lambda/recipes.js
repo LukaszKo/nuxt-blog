@@ -8,8 +8,10 @@ exports.handler = (event, context, callback) => {
 
   let collection = null
   client.connect((err, connection) => {
+    console.log(connection)
     if (err) { throw err }
     collection = connection.db('test').collection('recipes')
+    console.log(collection)
 
     collection.find({}).toArray((error, data) => {
       if (error) { throw error }
