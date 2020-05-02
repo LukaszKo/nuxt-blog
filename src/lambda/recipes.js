@@ -1,5 +1,5 @@
 const runDB = require('./db')
-const Recipe = require('./recipe.model')
+const Recipe = require('./recipeModel')
 
 runDB()
 
