@@ -1,7 +1,7 @@
-const runDB = require('./database/db')
+require('./database/db')
 const Recipe = require('./database/recipeModel')
 
-runDB()
+// runDB()
 
 exports.handler = async (event, context) => {
   try {
