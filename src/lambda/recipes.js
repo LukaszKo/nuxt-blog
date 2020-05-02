@@ -3,13 +3,12 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 exports.handler = (event, context, callback) => {
-  context.callbackWaitsForEmptyEventLoop = false
-
   const client = new MongoClient(process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
   client.connect((err, connection) => {
+    console.log(connection)
     if (err) {
       throw err
     }
