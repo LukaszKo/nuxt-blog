@@ -5,7 +5,10 @@ dotenv.config()
 exports.handler = (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false
 
-  const client = new MongoClient(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  const client = new MongoClient(process.env.DB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
   client.connect((err, connection) => {
     if (err) {
       throw err
@@ -13,7 +16,8 @@ exports.handler = (event, context, callback) => {
     const collection = connection.db('test').collection('recipes')
 
     // perform actions on the collection object
-    collection.find({}).toArray(function (err, result) {
+    collection.find({}).toArray((err, result) => {
+      console.log(result)
       if (err) {
         throw err
       }
