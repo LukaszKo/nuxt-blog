@@ -53,7 +53,7 @@ export default {
   //   return { ingredients: data }
   // },
   async fetch () {
-    const { data } = await axios.get('http://localhost:9000/recipes')
+    const { data } = await axios.get('recipes')
     this.ingredients = data
   },
   data () {

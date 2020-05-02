@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start:app": "nuxt",
-    "build:app": "nuxt build",
+    "build:app": "nuxt generate",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "start:lambda": "netlify-lambda serve src/lambda",
