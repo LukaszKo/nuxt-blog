@@ -1,9 +1,9 @@
-require('./database/db')
-const Recipe = require('./database/recipeModel')
 
-// runDB()
+import './database/db'
+import Recipe from './database/recipeModel'
 
 exports.handler = async (event, context) => {
+  context.callbackWaitsForEmptyEventLoop = false
   try {
     const data = await Recipe.find({}).exec()
     return {
