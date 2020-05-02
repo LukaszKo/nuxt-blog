@@ -8,30 +8,41 @@ dotenv.config()
 
 exports.handler = (event, context, callback) => {
   const client = createClient()
-  client.connect((err, connection) => {
-    console.log(connection)
-    if (err) {
-      throw err
+  console.log(client)
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ data: 'hello' }),
+    headers: {
+      'content-type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers':
+        'Origin, X-Requested-With, Content-Type, Accept'
     }
-    const collection = connection.db('test').collection('recipes')
+  }
+  // client.connect((err, connection) => {
+  //   console.log(connection)
+  //   if (err) {
+  //     throw err
+  //   }
+  //   const collection = connection.db('test').collection('events')
 
-    collection.find({}).toArray((err, result) => {
-      console.log(result)
-      if (err) {
-        throw err
-      }
-      connection.close()
+  //   collection.find({}).toArray((err, result) => {
+  //     console.log(result)
+  //     if (err) {
+  //       throw err
+  //     }
+  //     connection.close()
 
-      callback(null, {
-        statusCode: 200,
-        body: JSON.stringify(result),
-        headers: {
-          'content-type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers':
-            'Origin, X-Requested-With, Content-Type, Accept'
-        }
-      })
-    })
-  })
+  //     callback(null, {
+  //       statusCode: 200,
+  //       body: JSON.stringify(result),
+  //       headers: {
+  //         'content-type': 'application/json',
+  //         'Access-Control-Allow-Origin': '*',
+  //         'Access-Control-Allow-Headers':
+  //           'Origin, X-Requested-With, Content-Type, Accept'
+  //       }
+  //     })
+  //   })
+  // })
 }
