@@ -1,4 +1,3 @@
-
 // import './database/db'
 // import Recipe from './database/recipeModel'
 
@@ -9,15 +8,19 @@ dotenv.config()
 exports.handler = (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false
 
-  MongoClient.connect(process.env.DB_URI, function (err, connection) {
-    if (err) { throw err }
-    // eslint-disable-next-line no-console
-    console.log('Database created!')
-    const db = connection.db('test')
-    const recipeCollections = db.collection('recipes')
-    recipeCollections.find({}).toArray(function (err, result) {
-      if (err) { throw err }
-      db.close()
+  const client = new MongoClient(process.env.DB_URI, { useNewUrlParser: true })
+  console.log(client.db('test'))
+  client.connect((err) => {
+    if (err) {
+      throw err
+    }
+    const collection = client.db('test').collection('recipes')
+    // perform actions on the collection object
+    collection.find({}).toArray(function (err, result) {
+      if (err) {
+        throw err
+      }
+      client.close()
       return {
         statusCode: 200,
         body: JSON.stringify(result),
@@ -25,11 +28,34 @@ exports.handler = (event, context) => {
           'content-type': 'application/json',
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Headers':
-        'Origin, X-Requested-With, Content-Type, Accept'
+            'Origin, X-Requested-With, Content-Type, Accept'
         }
       }
     })
+    client.close()
   })
+
+  // MongoClient.connect(process.env.DB_URI, function (err, connection) {
+  //   if (err) { throw err }
+  //   // eslint-disable-next-line no-console
+  //   console.log('Database created!')
+  //   const db = connection.db('test')
+  //   const recipeCollections = db.collection('recipes')
+  //   recipeCollections.find({}).toArray(function (err, result) {
+  //     if (err) { throw err }
+  //     db.close()
+  //     return {
+  //       statusCode: 200,
+  //       body: JSON.stringify(result),
+  //       headers: {
+  //         'content-type': 'application/json',
+  //         'Access-Control-Allow-Origin': '*',
+  //         'Access-Control-Allow-Headers':
+  //       'Origin, X-Requested-With, Content-Type, Accept'
+  //       }
+  //     }
+  //   })
+  // })
 
   // try {
   //   // const data = await Recipe.find({}).exec()
