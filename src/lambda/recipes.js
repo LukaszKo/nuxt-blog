@@ -13,6 +13,10 @@ exports.handler = (event, context, callback) => {
     collection = connection.db('test').collection('recipes')
     console.log(collection)
     client.close()
+    callback(null, {
+      statusCode: 200,
+      body: JSON.stringify({ data: 'helol' })
+    })
     // collection.find({}).toArray((error, data) => {
     //   if (error) { throw error }
     //   client.close()
