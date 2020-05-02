@@ -4,8 +4,8 @@
       <v-col cols="12">
         <v-row class="">
           <v-card
-            v-for="n in 12"
-            :key="n"
+            v-for="(ingredient, index) in ingredients"
+            :key="ingredient.title + index"
             class="ma-4 pa-6 mx-auto"
             max-width="350"
             raised=""
@@ -13,28 +13,28 @@
             <v-img
               class="white--text align-end"
               height="200px"
-              src="https://cdn.aniagotuje.com/pictures/articles/2020/04/3451818-v-1080x1080.jpg"
+              :src="ingredient.image"
             >
-              <v-card-title>Top 10 Australian beaches</v-card-title>
+              <v-card-title>{{ ingredient.title }}</v-card-title>
             </v-img>
 
             <v-card-subtitle class="pb-0">
-              Number 10
+              {{ ingredient.type }}
             </v-card-subtitle>
 
             <v-card-text class="text--primary">
-              <div>Whitehaven Beach</div>
+              {{ ingredient.instructions }}
+            </v-card-text>
 
-              <div>Whitsunday Island, Whitsunday Islands</div>
+            <v-card-text class="text--primary">
+              <div v-for="item in ingredient.ingredients" :key="item">
+                {{ item }}
+              </div>
             </v-card-text>
 
             <v-card-actions>
               <v-btn color="orange" text>
-                Share
-              </v-btn>
-
-              <v-btn color="orange" text>
-                Explore
+                Details
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -45,10 +45,22 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   components: {},
+  // async asyncData ({ params }) {
+  //   const { data } = await axios.get('http://localhost:9000/recipes')
+  //   return { ingredients: data }
+  // },
+  async fetch () {
+    const { data } = await axios.get('http://localhost:9000/recipes')
+    this.ingredients = data
+  },
   data () {
-    return {}
-  }
+    return {
+      ingredients: []
+    }
+  },
+  fetchOnServer: false
 }
 </script>

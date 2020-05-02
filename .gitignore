@@ -88,3 +88,12 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# Local Netlify folder
+.netlify
+
+# production
+/build
+/lambda
+# misc
+.env
