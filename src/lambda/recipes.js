@@ -1,14 +1,14 @@
-const runDB = require('./db')
-const Recipe = require('./recipeModel')
+// const runDB = require('./db')
+// const Recipe = require('./recipeModel')
 
-runDB()
+// runDB()
 
-exports.handler = async (event, context) => {
+exports.handler = (event, context) => {
   try {
-    const data = await Recipe.find({}).exec()
+    // const data = await Recipe.find({}).exec()
     return {
       statusCode: 200,
-      body: JSON.stringify(data),
+      body: JSON.stringify({ data: 'hello' }),
       headers: {
         'content-type': 'application/json',
         'Access-Control-Allow-Origin': '*',
