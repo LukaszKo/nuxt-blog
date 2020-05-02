@@ -1,48 +1,29 @@
-// import { MongoClient } from 'mongodb'
 import dotenv from 'dotenv'
 
 import { createClient } from './database/db'
 dotenv.config()
 
-// this.db('test').collection('recipes')
-
 exports.handler = (event, context, callback) => {
   const client = createClient()
-  console.log(client)
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ data: 'hello' }),
-    headers: {
-      'content-type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers':
-        'Origin, X-Requested-With, Content-Type, Accept'
-    }
-  }
-  // client.connect((err, connection) => {
-  //   console.log(connection)
-  //   if (err) {
-  //     throw err
-  //   }
-  //   const collection = connection.db('test').collection('events')
 
-  //   collection.find({}).toArray((err, result) => {
-  //     console.log(result)
-  //     if (err) {
-  //       throw err
-  //     }
-  //     connection.close()
+  let collection = null
+  client.connect((err, connection) => {
+    if (err) { throw err }
+    collection = connection.db('test').collection('recipes')
 
-  //     callback(null, {
-  //       statusCode: 200,
-  //       body: JSON.stringify(result),
-  //       headers: {
-  //         'content-type': 'application/json',
-  //         'Access-Control-Allow-Origin': '*',
-  //         'Access-Control-Allow-Headers':
-  //           'Origin, X-Requested-With, Content-Type, Accept'
-  //       }
-  //     })
-  //   })
-  // })
+    collection.find({}).toArray((error, data) => {
+      if (error) { throw error }
+      client.close()
+      callback(null, {
+        statusCode: 200,
+        body: JSON.stringify({ data }),
+        headers: {
+          'content-type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers':
+            'Origin, X-Requested-With, Content-Type, Accept'
+        }
+      })
+    })
+  })
 }
