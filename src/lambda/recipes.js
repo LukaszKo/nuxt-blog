@@ -1,12 +1,13 @@
-import { MongoClient } from 'mongodb'
+// import { MongoClient } from 'mongodb'
 import dotenv from 'dotenv'
+
+import { createClient } from './database/db'
 dotenv.config()
 
+// this.db('test').collection('recipes')
+
 exports.handler = (event, context, callback) => {
-  const client = new MongoClient(process.env.DB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
+  const client = createClient()
   client.connect((err, connection) => {
     console.log(connection)
     if (err) {
@@ -14,7 +15,6 @@ exports.handler = (event, context, callback) => {
     }
     const collection = connection.db('test').collection('recipes')
 
-    // perform actions on the collection object
     collection.find({}).toArray((err, result) => {
       console.log(result)
       if (err) {
