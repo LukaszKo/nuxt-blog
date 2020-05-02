@@ -9,8 +9,8 @@ exports.handler = (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false
 
   const client = new MongoClient(process.env.DB_URI, { useNewUrlParser: true })
-  console.log(client.db('test'))
   client.connect((err) => {
+    client.db('test')
     if (err) {
       throw err
     }
