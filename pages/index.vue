@@ -44,10 +44,6 @@
 import axios from 'axios'
 
 export default {
-  async fetch () {
-    const { data } = await axios.get('.netlify/functions/recipes')
-    this.ingredients = data
-  },
   data () {
     return {
       ingredients: []
