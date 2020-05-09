@@ -1,52 +1,49 @@
 <template>
-  <v-layout column justify-center align-center>
+  <div>
     <v-row>
-      <v-col cols="12">
-        <v-row class>
-          <v-card
-            v-for="(ingredient, index) in ingredients"
-            :key="ingredient.title + index"
-            class="ma-4 pa-6 mx-auto"
-            max-width="350"
-            raised
-          >
-            <v-img class="white--text align-end" height="200px" :src="ingredient.image">
-              <v-card-title>{{ ingredient.title }}</v-card-title>
-            </v-img>
-
-            <v-card-subtitle class="pb-0">
-              {{ ingredient.type }}
-            </v-card-subtitle>
-
-            <v-card-text class="text--primary">
-              {{ ingredient.instructions }}
-            </v-card-text>
-
-            <v-card-text class="text--primary">
-              <div v-for="item in ingredient.ingredients" :key="item">
-                {{ item }}
-              </div>
-            </v-card-text>
-
-            <v-card-actions>
-              <v-btn color="orange" text>
-                Details
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-row>
+      <v-col>
+        <v-carousel>
+          <v-carousel-item
+            v-for="(item,i) in items"
+            :key="i"
+            :src="item.src"
+            reverse-transition="fade-transition"
+            transition="fade-transition"
+          />
+        </v-carousel>
       </v-col>
     </v-row>
-  </v-layout>
+    <PostList :list="latestPosts" />
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
+import PostList from '~/components/PostList'
 
 export default {
+  components: { PostList },
   data () {
     return {
-      ingredients: []
+      items: [
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
+        },
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg'
+        },
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg'
+        },
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg'
+        }
+      ]
+
+    }
+  },
+  computed: {
+    latestPosts () {
+      return this.$store.getters.latestPosts
     }
   },
   fetchOnServer: false

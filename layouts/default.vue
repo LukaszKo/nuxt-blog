@@ -1,31 +1,38 @@
 <template>
   <v-app>
-    <v-app-bar fixed app color="deep-orange lighten-1" dark>
-      <v-toolbar-title class="d-none d-sm-flex" v-text="title" />
-      <v-spacer />
-      <v-text-field
-        :append-icon-cb="() => {}"
-        placeholder="Szukaj..."
-        single-line
-        append-icon="mdi-magnify"
-        color="white"
-        hide-details
-      />
-      <v-spacer />
-      <v-btn class="ma-2 d-none d-sm-flex" color="" nuxt to="/new">
-        Dodaj
-        <v-icon dark>
-          mdi-plus
-        </v-icon>
-      </v-btn>
-      <v-btn small fab class="ma-2 d-flex d-sm-none" color="">
-        <v-icon dark>
-          mdi-plus
-        </v-icon>
-      </v-btn>
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+      clipped
+    >
+      <v-list dense>
+        <v-list-item v-for="(item, index) in menu" :key="index" nuxt :to="item.link">
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-app-bar
+      app
+      clipped-left
+    >
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title>
+        <nuxt-link to="/">
+          My Blog
+        </nuxt-link>
+      </v-toolbar-title>
     </v-app-bar>
-    <v-content id="main">
-      <v-container>
+    <v-content
+      fluid
+    >
+      <v-container
+        fluid
+      >
         <nuxt />
       </v-container>
     </v-content>
@@ -40,24 +47,24 @@ export default {
   data () {
     return {
       clipped: false,
-      drawer: false,
+      drawer: true,
       fixed: false,
-      items: [
+      menu: [
         {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
+          icon: 'mdi-account',
+          title: 'About',
+          link: '/about'
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          icon: 'mdi-file-document',
+          title: 'Posts',
+          link: '/posts'
         }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Przepisy'
+      title: 'My Blog'
     }
   }
 }
