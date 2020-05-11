@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const postsUrl = 'https://nuxt-blog-a2b7e.firebaseio.com/posts'
+const DB_URL = process.env.DB_URL
+const postsUrl = `${DB_URL}/posts`
 const extenstion = '.json'
 
 export default {

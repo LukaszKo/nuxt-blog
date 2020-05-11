@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import postsRepository from '~/repositories/posts'
 
 export const state = () => ({
@@ -20,11 +21,9 @@ export const mutations = {
     state.admin = payload
   },
   updatePost (state, payload) {
-    let post = state.posts.find(item => item.id === payload.id)
-    console.log(post)
-    console.log(payload)
-    if (post) {
-      post = { ...payload }
+    const postIndex = state.posts.findIndex(item => item.id === payload.id)
+    if (postIndex > -1) {
+      Vue.set(state.posts, postIndex, payload)
     }
   },
   removePost (state, payload) {
@@ -59,8 +58,8 @@ export const actions = {
     commit('addPost', { ...payload, id: data.name })
   },
   async updatePost ({ commit }, payload) {
-    await postsRepository.update(payload)
-    commit('updatePost', payload)
+    const { data } = await postsRepository.update(payload)
+    commit('updatePost', data)
   },
   async removePost ({ commit }, payload) {
     await postsRepository.delete(payload)

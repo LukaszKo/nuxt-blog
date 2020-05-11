@@ -12,10 +12,10 @@
     </v-img>
 
     <v-card-subtitle class="pb-0">
-      Created: {{ post.updatedDate }} by {{ post.author }}
+      Updated: {{ post.updatedDate | toLocalDate }} by {{ post.author }}
     </v-card-subtitle>
 
-    <v-card-text class="text--primary">
+    <v-card-text class="text--primary mt-2">
       <div>{{ post.content }}</div>
     </v-card-text>
 
@@ -23,14 +23,14 @@
       <v-btn
         v-if="!isAdmin"
         color="orange"
-        @click="goToDetails"
+        :to="`/posts/${post.id}`"
       >
         Preview
       </v-btn>
       <v-btn
         v-if="isAdmin"
         color="success"
-        @click="goToEdit"
+        :to="`/admin/${post.id}`"
       >
         Edit
       </v-btn>
@@ -55,16 +55,6 @@ export default {
   computed: {
     isAdmin () {
       return this.$store.state.admin
-    }
-  },
-  methods: {
-    goToDetails () {
-      this.$router.push(`/posts/${this.post.id}`)
-      this.$store.commit('setPost', this.post)
-    },
-    goToEdit (post) {
-      this.$router.push(`/admin/${this.post.id}`)
-      this.$store.commit('setPost', this.post)
     }
   }
 }

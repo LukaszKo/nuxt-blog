@@ -24,6 +24,12 @@
 </template>
 <script>
 export default {
+  props: {
+    isEdit: {
+      type: Boolean,
+      default: false
+    }
+  },
   data: () => ({
     form: {
       title: '',
@@ -45,7 +51,9 @@ export default {
     }
   },
   created () {
-    this.form = { ...this.postData }
+    if (this.isEdit) {
+      this.form = { ...this.postData }
+    }
   },
   methods: {
     onSave () {

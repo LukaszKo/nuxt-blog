@@ -5,7 +5,7 @@
     </v-img>
 
     <v-card-subtitle class="pb-0">
-      Created: {{ post.updatedDate }} by {{ post.author }}
+      Created: {{ post.updatedDate | toLocalDate }} by {{ post.author }}
     </v-card-subtitle>
 
     <v-card-text class="text--primary">

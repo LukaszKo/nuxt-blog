@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+require('dotenv').config()
 
 export default {
   mode: 'universal',
@@ -30,6 +31,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~plugins/filters.js'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -83,5 +85,8 @@ export default {
     */
     extend (config, ctx) {
     }
+  },
+  env: {
+    DB_URL: process.env.DB_URL
   }
 }
