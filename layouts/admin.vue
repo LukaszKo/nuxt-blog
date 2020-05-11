@@ -4,7 +4,11 @@
       app
     >
       <v-toolbar-title>
-        Admin panel
+        <v-btn text nuxt to="/admin">
+          <v-icon left>
+            mdi-account-cog
+          </v-icon> Admin
+        </v-btn>
       </v-toolbar-title>
     </v-app-bar>
     <v-content

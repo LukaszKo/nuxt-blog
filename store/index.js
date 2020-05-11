@@ -1,10 +1,34 @@
+import postsRepository from '~/repositories/posts'
+
 export const state = () => ({
-  posts: []
+  posts: [],
+  post: null,
+  admin: null
 })
 
 export const mutations = {
   setPosts (state, payload) {
     state.posts = payload
+  },
+  setPost (state, payload) {
+    state.post = payload
+  },
+  addPost (state, payload) {
+    state.posts.push(payload)
+  },
+  setAdmin (state, payload) {
+    state.admin = payload
+  },
+  updatePost (state, payload) {
+    let post = state.posts.find(item => item.id === payload.id)
+    console.log(post)
+    console.log(payload)
+    if (post) {
+      post = { ...payload }
+    }
+  },
+  removePost (state, payload) {
+    state.posts = state.posts.filter(item => item.id !== payload)
   }
 }
 
@@ -14,55 +38,32 @@ export const getters = {
 }
 
 export const actions = {
-  nuxtServerInit  ({ commit }, context) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        commit('setPosts', [
-          {
-            id: 1,
-            title: 'Post 1',
-            thumbnail: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-            content:
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book'
-          },
-          {
-            id: 2,
-            title: 'Post 2',
-            thumbnail: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-            content:
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book'
-          },
-          {
-            id: 3,
-            title: 'Post 3',
-            thumbnail: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-            content:
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book'
-          },
-          {
-            id: 4,
-            title: 'Post 4',
-            thumbnail: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-            content:
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book'
-          },
-          {
-            id: 5,
-            title: 'Post 5',
-            thumbnail: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-            content:
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book'
-          },
-          {
-            id: 6,
-            title: 'Post 6',
-            thumbnail: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-            content:
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book'
-          }
-        ])
-        resolve()
-      }, 1500)
-    })
+  nuxtServerInit ({ commit }, context) {
+    return postsRepository
+      .all()
+      .then((res) => {
+        const postsArray = []
+        for (const key in res.data) {
+          postsArray.push({ ...res.data[key], id: key })
+        }
+        commit('setPosts', postsArray)
+      })
+      .catch(err => context.error(err))
+  },
+  async fetchPost ({ commit }, payload) {
+    const { data } = await postsRepository.find(payload)
+    commit('setPost', data)
+  },
+  async createPost ({ commit }, payload) {
+    const { data } = await postsRepository.create(payload)
+    commit('addPost', { ...payload, id: data.name })
+  },
+  async updatePost ({ commit }, payload) {
+    await postsRepository.update(payload)
+    commit('updatePost', payload)
+  },
+  async removePost ({ commit }, payload) {
+    await postsRepository.delete(payload)
+    commit('removePost', payload)
   }
 }

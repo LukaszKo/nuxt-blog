@@ -22,9 +22,11 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>
-        <nuxt-link to="/">
-          My Blog
-        </nuxt-link>
+        <v-btn text nuxt to="/">
+          <v-icon left>
+            mdi-home
+          </v-icon> My Blog
+        </v-btn>
       </v-toolbar-title>
     </v-app-bar>
     <v-content

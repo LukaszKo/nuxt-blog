@@ -11,18 +11,35 @@
       <v-card-title>{{ post.title }}</v-card-title>
     </v-img>
 
+    <v-card-subtitle class="pb-0">
+      Created: {{ post.updatedDate }} by {{ post.author }}
+    </v-card-subtitle>
+
     <v-card-text class="text--primary">
       <div>{{ post.content }}</div>
     </v-card-text>
 
     <v-card-actions>
       <v-btn
+        v-if="!isAdmin"
         color="orange"
-        text
+        @click="goToDetails"
       >
-        <nuxt-link :to="`/posts/${post.id}`">
-          Preview
-        </nuxt-link>
+        Preview
+      </v-btn>
+      <v-btn
+        v-if="isAdmin"
+        color="success"
+        @click="goToEdit"
+      >
+        Edit
+      </v-btn>
+      <v-btn
+        v-if="isAdmin"
+        color="error"
+        @click="$emit('onRemove', post.id)"
+      >
+        Remove
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -33,6 +50,21 @@ export default {
     post: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    isAdmin () {
+      return this.$store.state.admin
+    }
+  },
+  methods: {
+    goToDetails () {
+      this.$router.push(`/posts/${this.post.id}`)
+      this.$store.commit('setPost', this.post)
+    },
+    goToEdit (post) {
+      this.$router.push(`/admin/${this.post.id}`)
+      this.$store.commit('setPost', this.post)
     }
   }
 }

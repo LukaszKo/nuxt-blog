@@ -9,12 +9,8 @@
         </v-col>
       </v-row>
       <hr>
-      <v-row>
-        <v-col>
-          <h1>Existing posts</h1>
-          <PostList :list="posts" md="3" />
-        </v-col>
-      </v-row>
+      <h1>Existing posts</h1>
+      <PostList :list="posts" @onRemove="onRemove" />
     </v-col>
   </v-row>
 </template>
@@ -29,6 +25,14 @@ export default {
   computed: {
     posts () {
       return this.$store.state.posts
+    }
+  },
+  created () {
+    this.$store.commit('setAdmin', { admin: 'admin' })
+  },
+  methods: {
+    onRemove (postId) {
+      this.$store.dispatch('removePost', postId)
     }
   }
 }
