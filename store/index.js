@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import postsRepository from '~/repositories/posts'
 
 export const state = () => ({
   posts: [],
@@ -38,31 +37,34 @@ export const getters = {
 
 export const actions = {
   nuxtServerInit ({ commit }, context) {
-    return postsRepository
-      .all()
-      .then((res) => {
+    return context.app.$axios
+      .$get('/posts.json')
+      .then((data) => {
         const postsArray = []
-        for (const key in res.data) {
-          postsArray.push({ ...res.data[key], id: key })
+        for (const key in data) {
+          postsArray.push({ ...data[key], id: key })
         }
         commit('setPosts', postsArray)
       })
       .catch(err => context.error(err))
   },
   async fetchPost ({ commit }, payload) {
-    const { data } = await postsRepository.find(payload)
+    const data = await this.$axios.$get(`/posts/${payload}.json`)
     commit('setPost', data)
   },
   async createPost ({ commit }, payload) {
-    const { data } = await postsRepository.create(payload)
+    const data = await this.$axios.$post('/posts.json', payload)
     commit('addPost', { ...payload, id: data.name })
   },
   async updatePost ({ commit }, payload) {
-    const { data } = await postsRepository.update(payload)
+    const data = await this.$axios.$patch(
+      `posts/${payload.id}.json`,
+      payload
+    )
     commit('updatePost', data)
   },
   async removePost ({ commit }, payload) {
-    await postsRepository.delete(payload)
+    await this.$axios.$delete(`posts/${payload}.json`)
     commit('removePost', payload)
   }
 }
