@@ -47,8 +47,10 @@ export const actions = {
   logout ({ commit }) {
     commit('clearToken')
     commit('clearUser')
-    localStorage.removeItem('token')
-    localStorage.removeItem('tokenExpiration')
+    if (process.client) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('tokenExpiration')
+    }
     Cookie.remove('jwt')
     Cookie.remove('expirationDate')
   },
