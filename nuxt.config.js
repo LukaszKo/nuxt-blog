@@ -91,6 +91,7 @@ export default {
     API_KEY: process.env.API_KEY
   },
   generate: {
+    fallback: true,
     routes () {
       return axios
         .get('https://nuxt-blog-a2b7e.firebaseio.com/posts.json')
