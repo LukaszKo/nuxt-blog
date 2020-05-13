@@ -61,6 +61,11 @@ export default {
           icon: 'mdi-file-document',
           title: 'Posts',
           link: '/posts'
+        },
+        {
+          icon: 'mdi-account-cog',
+          title: 'Admin',
+          link: '/admin'
         }
       ],
       miniVariant: false,

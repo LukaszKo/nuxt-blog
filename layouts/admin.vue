@@ -4,6 +4,11 @@
       app
     >
       <v-toolbar-title>
+        <v-btn text nuxt to="/">
+          <v-icon left>
+            mdi-home
+          </v-icon> My Blog
+        </v-btn>
         <v-btn text nuxt to="/admin">
           <v-icon left>
             mdi-account-cog
