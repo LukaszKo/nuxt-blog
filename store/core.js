@@ -73,8 +73,10 @@ export const actions = {
         .find(c => c.trim().startsWith('expirationDate='))
         .split('=')[1]
     } else {
-      token = localStorage.getItem('token')
-      expirationDate = localStorage.getItem('tokenExpiration')
+      if (localStorage) {
+        token = localStorage.getItem('token')
+        expirationDate = localStorage.getItem('tokenExpiration')
+      }
       if (new Date().getTime() > +expirationDate || !token) {
         dispatch('logout')
         return
