@@ -21,21 +21,21 @@
 
     <v-card-actions>
       <v-btn
-        v-if="!isAdmin"
+        v-if="!isAuthenticated"
         color="orange"
         :to="`/posts/${post.id}`"
       >
         Preview
       </v-btn>
       <v-btn
-        v-if="isAdmin"
+        v-if="isAuthenticated"
         color="success"
         :to="`/admin/${post.id}`"
       >
         Edit
       </v-btn>
       <v-btn
-        v-if="isAdmin"
+        v-if="isAuthenticated"
         color="error"
         @click="$emit('onRemove', post.id)"
       >
@@ -53,8 +53,8 @@ export default {
     }
   },
   computed: {
-    isAdmin () {
-      return this.$store.state.admin
+    isAuthenticated () {
+      return this.$store.getters['core/isAuthenticated']
     }
   }
 }

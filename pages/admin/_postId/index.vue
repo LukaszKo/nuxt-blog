@@ -4,7 +4,12 @@
       <p v-if="$fetchState.pending">
         Fetching post...
       </p>
-      <PostForm v-else :is-edit="true" @onSubmit="onEdit" />
+      <v-card v-else>
+        <v-card-title>Edit post form</v-card-title>
+        <v-card-text>
+          <PostForm :is-edit="true" @onSubmit="onEdit" />
+        </v-card-text>
+      </v-card>
     </v-col>
   </v-row>
 </template>
@@ -12,6 +17,7 @@
 import PostForm from '~/components/PostForm'
 export default {
   components: { PostForm },
+  middleware: ['check-auth', 'auth'],
   layout: 'admin',
   async fetch () {
     await this.$store.dispatch('fetchPost', this.$route.params.postId)

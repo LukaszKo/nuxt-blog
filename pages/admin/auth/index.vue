@@ -2,7 +2,7 @@
   <v-row align="center" justify="center">
     <v-col md="4">
       <v-card>
-        <v-card-title>Sign in</v-card-title>
+        <v-card-title>{{ submitBtnText }} Form</v-card-title>
         <v-card-text>
           <v-form ref="form" v-model="valid" lazy-validation>
             <v-text-field v-model="email" :rules="emailRules" label="E-mail" required />
@@ -14,12 +14,12 @@
               type="password"
             />
 
-            <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">
-              Validate
+            <v-btn :disabled="!valid" color="success" class="mr-4" @click="submit">
+              {{ submitBtnText }}
             </v-btn>
 
-            <v-btn color="error" class="mr-4" @click="reset">
-              Reset Form
+            <v-btn color="" class="mr-4" @click="switchForm">
+              {{ btnText }}
             </v-btn>
           </v-form>
         </v-card-text>
@@ -38,15 +38,27 @@ export default {
     emailRules: [
       v => !!v || 'E-mail is required',
       v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
-    ]
+    ],
+    isLogin: false
   }),
-
-  methods: {
-    validate () {
-      this.$refs.form.validate()
+  computed: {
+    submitBtnText () {
+      return this.isLogin ? 'Sign up' : 'Sign in'
     },
-    reset () {
-      this.$refs.form.reset()
+    btnText () {
+      return this.isLogin ? 'Switch to Signin' : 'Switch to Signup'
+    }
+  },
+  methods: {
+    async submit () {
+      const isValid = this.$refs.form.validate()
+      if (isValid) {
+        await this.$store.dispatch('core/authorizeUser', { email: this.email, password: this.password, isLogin: this.isLogin })
+        this.$router.push('/admin')
+      }
+    },
+    switchForm () {
+      this.isLogin = !this.isLogin
     },
     resetValidation () {
       this.$refs.form.resetValidation()

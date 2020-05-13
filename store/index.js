@@ -2,8 +2,7 @@ import Vue from 'vue'
 
 export const state = () => ({
   posts: [],
-  post: null,
-  admin: null
+  post: null
 })
 
 export const mutations = {
@@ -15,9 +14,6 @@ export const mutations = {
   },
   addPost (state, payload) {
     state.posts.push(payload)
-  },
-  setAdmin (state, payload) {
-    state.admin = payload
   },
   updatePost (state, payload) {
     const postIndex = state.posts.findIndex(item => item.id === payload.id)
@@ -50,21 +46,21 @@ export const actions = {
   },
   async fetchPost ({ commit }, payload) {
     const data = await this.$axios.$get(`/posts/${payload}.json`)
-    commit('setPost', data)
+    commit('setPost', { ...data, id: payload })
   },
-  async createPost ({ commit }, payload) {
-    const data = await this.$axios.$post('/posts.json', payload)
+  async createPost ({ commit, rootState }, payload) {
+    const data = await this.$axios.$post(`/posts.json?auth=${rootState.core.token}`, payload)
     commit('addPost', { ...payload, id: data.name })
   },
-  async updatePost ({ commit }, payload) {
+  async updatePost ({ commit, rootState }, payload) {
     const data = await this.$axios.$patch(
-      `posts/${payload.id}.json`,
+      `posts/${payload.id}.json?auth=${rootState.core.token}`,
       payload
     )
     commit('updatePost', data)
   },
-  async removePost ({ commit }, payload) {
-    await this.$axios.$delete(`posts/${payload}.json`)
+  async removePost ({ commit, rootState }, payload) {
+    await this.$axios.$delete(`posts/${payload}.json?auth=${rootState.core.token}`)
     commit('removePost', payload)
   }
 }

@@ -18,6 +18,7 @@
 import PostList from '~/components/PostList'
 export default {
   components: { PostList },
+  middleware: ['check-auth', 'auth'],
   layout: 'admin',
   data: () => ({
 
@@ -26,9 +27,6 @@ export default {
     posts () {
       return this.$store.state.posts
     }
-  },
-  created () {
-    this.$store.commit('setAdmin', { admin: 'admin' })
   },
   methods: {
     onRemove (postId) {
