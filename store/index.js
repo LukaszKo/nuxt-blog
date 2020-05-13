@@ -32,18 +32,26 @@ export const getters = {
 }
 
 export const actions = {
-  nuxtServerInit ({ commit }, context) {
-    return context.app.$axios
-      .$get('/posts.json')
-      .then((data) => {
-        const postsArray = []
-        for (const key in data) {
-          postsArray.push({ ...data[key], id: key })
-        }
-        commit('setPosts', postsArray)
-      })
-      .catch(err => context.error(err))
+  async fetchPosts ({ commit }) {
+    const data = await this.$axios.$get('/posts.json')
+    const postsArray = []
+    for (const key in data) {
+      postsArray.push({ ...data[key], id: key })
+    }
+    commit('setPosts', postsArray)
   },
+  // nuxtServerInit ({ commit }, context) {
+  //   return context.app.$axios
+  //     .$get('/posts.json')
+  //     .then((data) => {
+  //       const postsArray = []
+  //       for (const key in data) {
+  //         postsArray.push({ ...data[key], id: key })
+  //       }
+  //       commit('setPosts', postsArray)
+  //     })
+  //     .catch(err => context.error(err))
+  // },
   async fetchPost ({ commit }, payload) {
     const data = await this.$axios.$get(`/posts/${payload}.json`)
     commit('setPost', { ...data, id: payload })

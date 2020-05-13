@@ -17,6 +17,9 @@ export default {
     loadedPosts () {
       return this.$store.state.posts
     }
+  },
+  created () {
+    this.$store.dispatch('fetchPosts')
   }
 }
 </script>

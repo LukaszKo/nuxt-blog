@@ -28,6 +28,9 @@ export default {
       return this.$store.state.posts
     }
   },
+  created () {
+    this.$store.dispatch('fetchPosts')
+  },
   methods: {
     onRemove (postId) {
       this.$store.dispatch('removePost', postId)

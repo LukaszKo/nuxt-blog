@@ -46,6 +46,8 @@ export default {
       return this.$store.getters.latestPosts
     }
   },
-  fetchOnServer: false
+  created () {
+    this.$store.dispatch('fetchPosts')
+  }
 }
 </script>
