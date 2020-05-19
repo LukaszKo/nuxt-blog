@@ -98,8 +98,8 @@ export default {
         .then((res) => {
           const routes = []
           for (const key in res.data) {
-            routes.push('/posts/' + key)
-            routes.push('/admin/' + key)
+            routes.push({ path: '/posts/' + key, payload: res.data[key] })
+            routes.push({ path: '/admin/' + key, payload: res.data[key] })
           }
           return routes
         })

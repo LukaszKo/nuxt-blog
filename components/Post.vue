@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     isAuthenticated () {
-      return this.$store.getters['core/isAuthenticated']
+      return this.$store.getters['core/isAuthenticated'] && this.$router.currentRoute.name === 'admin'
     }
   }
 }

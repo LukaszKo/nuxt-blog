@@ -1,18 +1,13 @@
 <template>
   <div>
-    <p v-if="$fetchState.pending">
-      Fetching post...
-    </p>
-    <PostPreview v-else :post="post" />
+    <PostPreview v-if="post" :post="post" />
   </div>
 </template>
 <script>
 import PostPreview from '~/components/PostPreview'
 export default {
   components: { PostPreview },
-  async fetch () {
-    await this.$store.dispatch('fetchPost', this.$route.params.id)
-  },
+  middleware: 'post',
   computed: {
     post () {
       return this.$store.state.post
