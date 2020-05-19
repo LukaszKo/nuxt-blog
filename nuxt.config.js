@@ -94,12 +94,12 @@ export default {
     fallback: true,
     routes () {
       return axios
-        .get('https://nuxt-blog-a2b7e.firebaseio.com/posts.json')
+        .get(`${process.env.DB_URL}/posts.json`)
         .then((res) => {
           const routes = []
           for (const key in res.data) {
-            routes.push({ path: '/posts/' + key, payload: res.data[key] })
-            routes.push({ path: '/admin/' + key, payload: res.data[key] })
+            routes.push({ route: '/posts/' + key, payload: res.data[key] })
+            routes.push({ route: '/admin/' + key, payload: res.data[key] })
           }
           return routes
         })
