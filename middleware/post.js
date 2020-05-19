@@ -1,7 +1,7 @@
-export default function ({ store, payload, params }) {
+export default async ({ store, payload, params }) => {
   if (payload) {
-    store.commit('setPost', payload)
+    return store.commit('setPost', payload)
   } else {
-    store.dispatch('fetchPost', params.id)
+    await store.dispatch('fetchPost', params.id)
   }
 }

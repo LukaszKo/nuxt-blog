@@ -14,13 +14,15 @@
               type="password"
             />
 
-            <v-btn :disabled="!valid" color="success" class="mr-4" @click="submit">
-              {{ submitBtnText }}
-            </v-btn>
+            <v-card-actions>
+              <v-btn :disabled="!valid" color="success" class="" @click="submit">
+                {{ submitBtnText }}
+              </v-btn>
 
-            <v-btn color="" class="mr-4" @click="switchForm">
-              {{ btnText }}
-            </v-btn>
+              <v-btn color="" class="" @click="switchForm">
+                {{ btnText }}
+              </v-btn>
+            </v-card-actions>
           </v-form>
         </v-card-text>
       </v-card>

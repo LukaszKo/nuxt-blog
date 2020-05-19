@@ -1,3 +1,3 @@
-export default function (context) {
-  context.store.dispatch('core/initAuth', context.req)
+export default ({ store, req }) => {
+  store.dispatch('core/initAuth', req)
 }
